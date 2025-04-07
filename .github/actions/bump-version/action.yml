@@ -1,0 +1,57 @@
+name: 'Bump version using semantic-release'
+description: 'Bump version action for QSAI.'
+author: 'QuantStack'
+inputs:
+  github_token:
+    description: 'Github token'
+    required: true
+  dry_run:
+    description: 'Dry run flag'
+    required: false
+    default: 'false'
+
+outputs:
+  version:
+    description: 'The new version number'
+    value: ${{ steps.bump-version.outputs.version }}
+  success:
+    description: 'The action was successful or not'
+    value: ${{ steps.bump-version.outputs.success }}
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        npm install
+    - name: Bump version
+      id: bump-version
+      shell: bash
+      run: |
+        if [ "$DRY_RUN" == "true" ]; then
+          echo "Dry run only"
+          version=$(npx semantic-release --dry-run --debug | grep -oP '(?<=Published release )\d+\.\d+\.\d+' || true)
+        fi
+        if [ "$DRY_RUN" == "false" ]; then
+          echo "Bumping version"
+          version=$(npx semantic-release | grep -oP '(?<=Published release )\d+\.\d+\.\d+'  || true)
+        fi         
+        if [ -z "$version" ]; then
+          echo "No version number found."
+          echo "success=false" >> $GITHUB_OUTPUT
+          exit 0
+        fi
+        echo "Version output: $version"
+        echo "version=$version" >> $GITHUB_OUTPUT
+        echo "success=true" >> $GITHUB_OUTPUT
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        DRY_RUN: ${{ inputs.dry_run }}
