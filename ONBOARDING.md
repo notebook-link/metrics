@@ -158,6 +158,14 @@ export default collector;
 
 Production note: disable the built-in no-op collector plugin
 `notebook-metrics:collector` when your application ships a real one.
+You can do that with:
+
+```
+jupyter labextension disable notebook-metrics:collector
+```
+
+more details about plugin management are available
+[here](https://jupyterlab.readthedocs.io/en/stable/user/extensions.html#managing-extensions-with-jupyter-labextension)
 
 Good first smoke test:
 
