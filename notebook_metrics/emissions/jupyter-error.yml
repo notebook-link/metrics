@@ -32,6 +32,15 @@ properties:
         type: array
         items:
           type: string
+      cell:
+        type: object
+        properties:
+          id:
+            type: string
+          metadata:
+            type: object
+      notebook:
+        type: string
     required:
       - ename
       - evalue

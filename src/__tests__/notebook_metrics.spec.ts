@@ -187,7 +187,12 @@ describe('notebook-metrics', () => {
     });
     executed.emit({
       notebook: {},
-      cell: {},
+      cell: {
+        model: {
+          id: '32',
+          metadata: { editable: 'false' }
+        }
+      },
       success: false,
       error: {
         errorName: 'NameError',
