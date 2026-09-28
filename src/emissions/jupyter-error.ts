@@ -1,7 +1,7 @@
-import { NotebookActions } from '@jupyterlab/notebook';
 import { Cell, ICellModel } from '@jupyterlab/cells';
-import { DisposableDelegate, IDisposable } from '@lumino/disposable';
+import { NotebookActions } from '@jupyterlab/notebook';
 import { JSONObject } from '@lumino/coreutils';
+import { DisposableDelegate, IDisposable } from '@lumino/disposable';
 import { IMetrics } from '..';
 
 type ExecutionResult = {
@@ -67,7 +67,7 @@ export namespace JupyterError {
    * @returns a disposable that stops broadcasting when disposed.
    */
   export function broadcast(emitter: IMetrics.Event.Emitter): IDisposable {
-    const handler = (_: unknown, { error, success, cell }: ExecutionResult) => {
+    const handler = (_: unknown, { cell, error, success }: ExecutionResult) => {
       if (success || !error) {
         return;
       }
