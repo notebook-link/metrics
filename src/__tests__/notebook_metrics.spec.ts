@@ -186,7 +186,14 @@ describe('notebook-metrics', () => {
       error: null
     });
     executed.emit({
-      notebook: {},
+      notebook: {
+        id: 'id345',
+        parent: {
+          title: {
+            caption: "Name: 'Untitled.ipynb'\nPath: 'home/Untitled.ipynb'"
+          }
+        }
+      },
       cell: {
         model: {
           id: '32',

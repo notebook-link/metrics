@@ -40,7 +40,14 @@ properties:
           metadata:
             type: object
       notebook:
-        type: string
+        type: object
+        properties:
+          id:
+            type: string
+          filename:
+            type: string
+          filepath:
+            type: string
     required:
       - ename
       - evalue
